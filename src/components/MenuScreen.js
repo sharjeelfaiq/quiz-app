@@ -29,44 +29,28 @@ const MenuScreen = () => {
       </div>
 
       <div className="flex justify-center space-x-6 mt-6">
-        <a
-          href="https://github.com/sharjeelfaiq"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/sharjeelfaiq" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faGithub}
             size="2x"
             className="text-gray-800 hover:text-gray-600 transition-colors duration-200"
           />
         </a>
-        <a
-          href="https://linkedin.com/in/sharjeelfaiq"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://linkedin.com/in/sharjeelfaiq" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faLinkedin}
             size="2x"
             className="text-blue-700 hover:text-blue-500 transition-colors duration-200"
           />
         </a>
-        <a
-          href="https://medium.com/@sharjeelfaiq"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://medium.com/@sharjeelfaiq" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faMedium}
             size="2x"
             className="text-black hover:text-gray-700 transition-colors duration-200"
           />
         </a>
-        <a
-          href="https://www.npmjs.com/~mrmalik610"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://www.npmjs.com/~mrmalik610" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faNpm}
             size="2x"
