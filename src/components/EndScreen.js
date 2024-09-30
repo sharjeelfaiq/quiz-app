@@ -33,7 +33,7 @@ const EndScreen = () => {
   const feedback = getFeedback();
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md max-w-md mx-auto">
+    <div className="p-6 bg-white rounded-lg shadow-lg max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Quiz Completed</h1>
       <p className="text-lg mb-2 text-center text-gray-700">
         Your Score: <span className="font-semibold">{score}/{questions.length}</span>
@@ -43,13 +43,13 @@ const EndScreen = () => {
       </p>
       <div className="space-y-2">
         <button
-          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           onClick={navigateToHome}
         >
           Go To Home
         </button>
         <button
-          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           onClick={restartQuiz}
         >
           Restart Quiz
