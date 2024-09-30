@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MenuScreen from "./MenuScreen";
 import QuizScreen from "./QuizScreen";
 import EndScreen from "./EndScreen";
@@ -15,18 +15,37 @@ const Layout = () => {
     setScore,
   };
 
-  const screens = {
-    menu: <MenuScreen />,
-    quiz: <QuizScreen />,
-    end: <EndScreen />,
-  };
+  useEffect(() => {
+    window.history.pushState(
+      { screen: currentScreen },
+      "",
+      `#${currentScreen}`
+    );
+  }, [currentScreen]);
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state) {
+        setCurrentScreen(event.state.screen);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   return (
     <div className="flex justify-center bg-gray-100 min-h-screen pb-36">
       <div className="mt-20 w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center mb-6">Quiz App</h1>
         <QuizContext.Provider value={values}>
-          {screens[currentScreen]}
+          <div>
+            {currentScreen === "menu" && <MenuScreen />}
+            {currentScreen === "quiz" && <QuizScreen />}
+            {currentScreen === "end" && <EndScreen />}
+          </div>
         </QuizContext.Provider>
       </div>
     </div>
