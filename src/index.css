@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Keyframes for a one-time pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8; /* Slightly faded in the middle of the pulse */
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1; /* Fade back to full opacity */
+  }
+}
+
+.animate-pulse {
+  animation: pulse 0.6s ease-in-out; /* Play the animation once */
+}
+
+/* Background color for the correct option */
+.bg-light-green-500 {
+  background-color: rgba(144, 238, 144, 0.7); /* A more vivid light green */
+}
+
+/* Additional hover effect for better interactivity */
+.bg-light-green-500:hover {
+  background-color: rgba(144, 238, 144, 0.9); /* Darken slightly on hover */
+}

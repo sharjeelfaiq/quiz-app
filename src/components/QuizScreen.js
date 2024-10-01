@@ -5,6 +5,7 @@ import { QuizContext } from "../context/QuizContext";
 const QuizScreen = () => {
   const [count, setCount] = useState(0);
   const [selected, setSelected] = useState(null);
+  const [feedback, setFeedback] = useState(null); // State to track feedback
   const { score, setScore, setCurrentScreen, timeLeft, setTimeLeft } =
     useContext(QuizContext);
 
@@ -18,21 +19,31 @@ const QuizScreen = () => {
     } else {
       setCurrentScreen("end");
     }
-  }, [timeLeft, setCurrentScreen, setTimeLeft, setScore]);
+  }, [timeLeft, setCurrentScreen, setTimeLeft]);
 
   const navigateForward = () => {
+    // Check if the selected answer is correct
     if (selected === rightAnswer) {
       setScore((prevScore) => prevScore + 1);
+      setFeedback(null); // No feedback needed for correct answer
+    } else {
+      setFeedback(rightAnswer); // Set feedback to show the correct answer
     }
-    setSelected(null);
-    count === questions.length - 1
-      ? setCurrentScreen("end")
-      : setCount((prevCount) => prevCount + 1);
+
+    // Move to the next question after a short delay to allow the user to see feedback
+    setTimeout(() => {
+      setSelected(null);
+      setFeedback(null); // Clear feedback for the next question
+      count === questions.length - 1
+        ? setCurrentScreen("end")
+        : setCount((prevCount) => prevCount + 1);
+    }, 1000); // 1 second delay
   };
 
   const OptionButton = ({ option }) => {
     const isSelected = selected === option;
     const isCorrect = option === rightAnswer;
+    const showFeedback = feedback === rightAnswer; // Check if feedback should be shown
 
     return (
       <button
@@ -42,6 +53,8 @@ const QuizScreen = () => {
             ? isCorrect
               ? "bg-green-600 text-white border-2 border-green-700" // Correct answer
               : "bg-red-600 text-white border-2 border-red-700" // Incorrect answer
+            : showFeedback && option === rightAnswer // Only highlight the correct answer
+            ? "bg-light-green-400 border-2 border-green-500" // Correct answer feedback
             : "bg-white text-gray-800 border border-gray-300 hover:border-blue-500 hover:bg-gray-100"
         }`}
         disabled={!!selected} // Disable button after selection
