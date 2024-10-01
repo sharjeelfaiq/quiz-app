@@ -11,33 +11,41 @@ const QuizScreen = () => {
 
   const navigateForward = () => {
     if (selected === rightAnswer) {
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
     }
     setSelected(null);
-    if (count === questions.length - 1) {
-      setCurrentScreen("end");
-    } else {
-      setCount(count + 1);
-    }
+    count === questions.length - 1 ? setCurrentScreen("end") : setCount((prevCount) => prevCount + 1);
   };
 
-  const OptionButton = ({ option }) => (
-    <button
-      onClick={() => setSelected(option)}
-      className={`w-full p-4 transition duration-300 rounded-lg shadow-md ${
-        selected === option
-          ? "bg-blue-600 text-white border-2 border-blue-700"
-          : "bg-white text-gray-800 border border-gray-300 hover:border-blue-500 hover:bg-gray-100"
-      }`}
-    >
-      {option}
-    </button>
-  );
+  const OptionButton = ({ option }) => {
+    const isSelected = selected === option;
+    const isCorrect = option === rightAnswer;
+
+    return (
+      <button
+        onClick={() => !selected && setSelected(option)} // Prevent clicking after selection
+        className={`w-full p-4 transition duration-300 rounded-lg shadow-md ${
+          isSelected
+            ? isCorrect
+              ? "bg-green-600 text-white border-2 border-green-700" // Correct answer
+              : "bg-red-600 text-white border-2 border-red-700" // Incorrect answer
+            : "bg-white text-gray-800 border border-gray-300 hover:border-blue-500 hover:bg-gray-100"
+        }`}
+        disabled={!!selected} // Disable button after selection
+      >
+        {option}
+      </button>
+    );
+  };
 
   const isLastQuestion = count === questions.length - 1;
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-md mx-auto">
+      <div className="flex justify-between mb-4">
+        <span className="text-gray-800">Question: {count + 1}/{questions.length}</span>
+        <span className="text-gray-800">Score: {score}/{questions.length}</span>
+      </div>
       <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">
         {questions[count].question}
       </h1>
@@ -56,7 +64,7 @@ const QuizScreen = () => {
             : "bg-gray-400 cursor-not-allowed"
         }`}
         onClick={navigateForward}
-        disabled={!selected}
+        disabled={!selected} // Disable button until an option is selected
       >
         {isLastQuestion ? "Finish Quiz" : "Next"}
       </button>
