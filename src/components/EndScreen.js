@@ -3,16 +3,18 @@ import { QuizContext } from "../context/QuizContext";
 import { questions } from "../utils/QuestionBank";
 
 const EndScreen = () => {
-  const { score, setScore, setCurrentScreen } = useContext(QuizContext);
+  const { score, setScore, setCurrentScreen, resetTimer } = useContext(QuizContext);
 
   const navigateToHome = () => {
     setCurrentScreen("menu");
     setScore(0);
+    resetTimer();
   };
 
   const restartQuiz = () => {
     setCurrentScreen("quiz");
     setScore(0);
+    resetTimer();
   };
 
   const getFeedback = () => {

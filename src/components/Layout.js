@@ -4,15 +4,25 @@ import QuizScreen from "./QuizScreen";
 import EndScreen from "./EndScreen";
 import { QuizContext } from "../context/QuizContext";
 
+const originalTimeAllowed = 60;
 const Layout = () => {
   const [currentScreen, setCurrentScreen] = useState("menu");
+  const [timeLeft, setTimeLeft] = useState(originalTimeAllowed);
   const [score, setScore] = useState(0);
+
+  const resetTimer = () => {
+    setTimeLeft(originalTimeAllowed);
+    return originalTimeAllowed;
+  };
 
   const values = {
     currentScreen,
     setCurrentScreen,
     score,
     setScore,
+    timeLeft,
+    setTimeLeft,
+    resetTimer
   };
 
   useEffect(() => {

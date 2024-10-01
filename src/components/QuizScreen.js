@@ -1,20 +1,33 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { questions } from "../utils/QuestionBank";
 import { QuizContext } from "../context/QuizContext";
 
 const QuizScreen = () => {
   const [count, setCount] = useState(0);
   const [selected, setSelected] = useState(null);
-  const { score, setScore, setCurrentScreen } = useContext(QuizContext);
+  const { score, setScore, setCurrentScreen, timeLeft, setTimeLeft } =
+    useContext(QuizContext);
 
   const rightAnswer = questions[count].correctAnswer;
+
+  // Function to handle the timer
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timerId); // Clean up the timer
+    } else {
+      setCurrentScreen("end");
+    }
+  }, [timeLeft, setCurrentScreen, setTimeLeft, setScore]);
 
   const navigateForward = () => {
     if (selected === rightAnswer) {
       setScore((prevScore) => prevScore + 1);
     }
     setSelected(null);
-    count === questions.length - 1 ? setCurrentScreen("end") : setCount((prevCount) => prevCount + 1);
+    count === questions.length - 1
+      ? setCurrentScreen("end")
+      : setCount((prevCount) => prevCount + 1);
   };
 
   const OptionButton = ({ option }) => {
@@ -43,18 +56,30 @@ const QuizScreen = () => {
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg max-w-md mx-auto">
       <div className="flex justify-between mb-4">
-        <span className="text-gray-800">Question: {count + 1}/{questions.length}</span>
-        <span className="text-gray-800">Score: {score}/{questions.length}</span>
+        <span className="text-gray-800">
+          Question: {count + 1}/{questions.length}
+        </span>
+        <span className="text-gray-800">
+          Score: {score}/{questions.length}
+        </span>
       </div>
+
       <h1 className="text-2xl font-semibold mb-6 text-center text-gray-800">
         {questions[count].question}
       </h1>
+
+      {/* Display the Timer */}
+      <div className="mb-4 text-center text-red-600">
+        Time Left: {timeLeft} seconds
+      </div>
+
       <div className="space-y-4 mb-4">
         <OptionButton option={questions[count].option1} />
         <OptionButton option={questions[count].option2} />
         <OptionButton option={questions[count].option3} />
         <OptionButton option={questions[count].option4} />
       </div>
+
       <button
         className={`w-full py-3 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:outline-none ${
           selected
